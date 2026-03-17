@@ -1,0 +1,57 @@
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .aboutGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.aboutText {
+  color: var(--muted);
+  line-height: 1.75;
+  margin-top: 10px;
+}
+
+.kpiRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.aboutCenter {
+  text-align: center;
+}
+
+@media (min-width: 901px) {
+  .aboutLead {
+    text-align: center;
+    text-justify: auto;
+    margin: 10px auto 0;
+    max-width: 86ch;
+  }
+}
+
+.aboutCard {
+  padding: 20px;
+  transition: transform var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out), filter var(--dur) var(--ease-out);
+}
+
+.aboutCard:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(167, 139, 250, 0.18);
+  box-shadow: var(--shadow);
+  filter: brightness(1.03);
+}
+
+.aboutCard:active {
+  transform: translateY(-1px) scale(0.995);
+  filter: brightness(1.05);
+}
+

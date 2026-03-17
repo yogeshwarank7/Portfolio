@@ -1,0 +1,167 @@
+.homeStage {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.homeFx {
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(closest-side at 40% 30%, rgba(167, 139, 250, 0.22), transparent 62%),
+    radial-gradient(closest-side at 70% 60%, rgba(96, 165, 250, 0.16), transparent 62%),
+    conic-gradient(from 220deg at 50% 50%, rgba(255, 255, 255, 0.04), transparent 40%, rgba(255, 255, 255, 0.03));
+  filter: blur(30px);
+  opacity: 0.9;
+  transform: translateZ(0);
+  animation: floatFx 10s var(--ease-inout) infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.homeCenter {
+  z-index: 10;
+}
+
+@keyframes floatFx {
+  0% { transform: translate3d(-1%, -1%, 0) scale(1); }
+  50% { transform: translate3d(1%, 1%, 0) scale(1.02); }
+  100% { transform: translate3d(-1%, -1%, 0) scale(1); }
+}
+
+@keyframes homeEnter {
+  from { transform: translate3d(0, 8px, 0); filter: blur(8px); opacity: 0.88; }
+  to { transform: translate3d(0, 0, 0); filter: blur(0); opacity: 1; }
+}
+
+.homeCenter {
+  position: relative;
+  width: min(980px, calc(100% - 42px));
+  text-align: center;
+  animation: homeEnter 520ms var(--ease-out) both;
+}
+
+.homeTitle {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  line-height: 1.24;
+  letter-spacing: -0.03em;
+  font-size: clamp(34px, 4.8vw, 66px);
+  transition: transform var(--dur) var(--ease-out), filter var(--dur) var(--ease-out);
+  padding-bottom: 0.18em; /* prevent descender clipping (e.g., "g") */
+}
+
+.homeTitle:hover {
+  transform: translateY(-1px);
+  filter: drop-shadow(0 0 38px rgba(96, 165, 250, 0.12));
+}
+
+.homeTitleRow {
+  display: block;
+}
+
+.homeTitleRow + .homeTitleRow {
+  margin-top: 10px;
+}
+
+.homeSpacer {
+  display: inline-block;
+  width: 10px;
+}
+
+.homeComma {
+  display: inline-block;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.homeLetter {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+.homeHi,
+.homeName,
+.homeRole {
+  display: inline-block;
+  filter:
+    drop-shadow(0 18px 60px rgba(0, 0, 0, 0.35))
+    drop-shadow(0 0 44px rgba(167, 139, 250, 0.16));
+  transform: translateZ(0);
+}
+
+.homeHi {
+  color: var(--accent-2);
+}
+.homeName {
+  color: var(--text-strong);
+}
+.homeRole {
+  color: var(--accent);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .homeName {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(96, 165, 250, 0.95), rgba(167, 139, 250, 0.98));
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: titleShift 7.2s var(--ease-inout) infinite;
+  }
+  .homeRole {
+    background: linear-gradient(90deg, rgba(167, 139, 250, 0.98), rgba(96, 165, 250, 0.92));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: roleShift 6.2s var(--ease-inout) infinite;
+  }
+}
+
+@keyframes roleShift {
+  0% { filter: drop-shadow(0 0 0 rgba(167, 139, 250, 0)); }
+  50% { filter: drop-shadow(0 0 26px rgba(167, 139, 250, 0.25)); }
+  100% { filter: drop-shadow(0 0 0 rgba(167, 139, 250, 0)); }
+}
+
+@keyframes titleFloat {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -2px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes titleShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.homeActions {
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeFx {
+    animation: none;
+  }
+  .homeCenter {
+    animation: none;
+  }
+  .homeName,
+  .homeRole {
+    animation: none;
+  }
+}
+

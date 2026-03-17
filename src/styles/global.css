@@ -1,0 +1,337 @@
+/* Global theme + layout (dark-first) */
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+
+  /* Dark mode: deep dark gray + night black */
+  --bg: #05060a;
+  --bg-elev: rgba(255, 255, 255, 0.05);
+  --bg-elev-2: rgba(255, 255, 255, 0.075);
+  --border: rgba(255, 255, 255, 0.11);
+  --border-2: rgba(255, 255, 255, 0.18);
+
+  --text: rgba(255, 255, 255, 0.78);
+  --text-strong: rgba(255, 255, 255, 0.94);
+  --muted: rgba(255, 255, 255, 0.62);
+
+  --accent: #a78bfa; /* subtle violet */
+  --accent-2: #60a5fa; /* subtle blue */
+  --accent-glow: rgba(167, 139, 250, 0.35);
+
+  --shadow: 0 22px 70px rgba(0, 0, 0, 0.55);
+  --shadow-soft: 0 12px 34px rgba(0, 0, 0, 0.40);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur: 240ms;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --container: 1120px;
+  --nav-h: 72px;
+}
+
+html[data-theme='light'] {
+  /* Light mode: light grey-blue */
+  --bg: #eef4ff;
+  --bg-elev: rgba(8, 12, 22, 0.05);
+  --bg-elev-2: rgba(8, 12, 22, 0.07);
+  --border: rgba(20, 20, 30, 0.10);
+  --border-2: rgba(20, 20, 30, 0.14);
+  --text: rgba(10, 12, 16, 0.78);
+  --text-strong: rgba(10, 12, 16, 0.95);
+  --muted: rgba(10, 12, 16, 0.62);
+  --shadow: 0 18px 55px rgba(20, 20, 30, 0.18);
+  --shadow-soft: 0 10px 30px rgba(20, 20, 30, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100svh;
+}
+
+/* Smooth theme transition + premium background gradients */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 800px at 12% 0%, rgba(96, 165, 250, 0.16), transparent 60%),
+    radial-gradient(1000px 700px at 88% 18%, rgba(167, 139, 250, 0.16), transparent 62%),
+    radial-gradient(800px 520px at 50% 100%, rgba(96, 165, 250, 0.10), transparent 60%);
+  opacity: 0.95;
+  transition: opacity 400ms var(--ease-out);
+}
+
+html[data-theme='light'] body::before {
+  background:
+    radial-gradient(1200px 800px at 12% 0%, rgba(96, 165, 250, 0.14), transparent 62%),
+    radial-gradient(1000px 700px at 88% 18%, rgba(167, 139, 250, 0.12), transparent 64%),
+    radial-gradient(800px 520px at 50% 100%, rgba(255, 255, 255, 0.45), transparent 62%);
+  opacity: 0.85;
+}
+
+html {
+  transition: background-color 400ms var(--ease-out), color 400ms var(--ease-out);
+}
+
+/* Desktop: route-based sections, no page scrolling */
+@media (min-width: 901px) {
+  body {
+    overflow: hidden;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+/* Typography: justify paragraphs for premium reading flow */
+p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.prose {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.container {
+  width: min(var(--container), calc(100% - 40px));
+  margin-inline: auto;
+}
+
+@media (min-width: 901px) {
+  .container {
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 28px;
+  }
+}
+
+.glass {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg-elev), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(20px) saturate(1.25);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25);
+}
+
+/* Ensure text/content renders above liquid reflections */
+.glass > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Liquid glass reflection + diffusion */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(800px 260px at 20% 0%, rgba(255, 255, 255, 0.12), transparent 55%),
+    radial-gradient(600px 220px at 80% 20%, rgba(167, 139, 250, 0.10), transparent 60%);
+  opacity: 0.85;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* Light mode: slightly stronger glass effect */
+html[data-theme='light'] .glass {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.72),
+    rgba(255, 255, 255, 0.38)
+  );
+  border-color: rgba(8, 12, 22, 0.12);
+  backdrop-filter: blur(22px) saturate(1.15);
+  -webkit-backdrop-filter: blur(22px) saturate(1.15);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-strong);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out),
+    background var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out),
+    filter var(--dur) var(--ease-out);
+  user-select: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: var(--border-2);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.30),
+    0 0 0 7px rgba(167, 139, 250, 0.10),
+    0 0 38px rgba(167, 139, 250, 0.12);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.99);
+  filter: brightness(1.03);
+}
+
+.btnPrimary {
+  border-color: rgba(167, 139, 250, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(167, 139, 250, 0.22),
+    rgba(96, 165, 250, 0.12)
+  );
+}
+
+.btnPrimary:hover {
+  box-shadow:
+    0 18px 45px rgba(167, 139, 250, 0.20),
+    0 0 0 8px rgba(96, 165, 250, 0.12),
+    0 0 44px rgba(96, 165, 250, 0.14);
+}
+
+/* Premium underline animation for links */
+.link {
+  position: relative;
+  text-decoration: none;
+  color: var(--text-strong);
+}
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, rgba(167, 139, 250, 0.9), rgba(96, 165, 250, 0.85));
+  transition: transform var(--dur) var(--ease-out);
+  border-radius: 999px;
+  opacity: 0.9;
+}
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+.link:hover {
+  color: rgba(255, 255, 255, 0.96);
+}
+
+html[data-theme='light'] .link:hover {
+  color: rgba(10, 12, 16, 0.98);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.muted {
+  color: var(--muted);
+ 
+}
+
+.h1 {
+  margin: 0;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  text-align: center;
+}
+
+.section {
+  padding: 84px 0;
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 64px 0;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 650ms ease, transform 650ms ease;
+}
+.reveal.isInView {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn {
+    transition: none;
+  }
+}
+

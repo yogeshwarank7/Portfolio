@@ -1,0 +1,229 @@
+.app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 1 auto;
+  padding-bottom: 22px;
+  overflow: visible; /* avoid clipping hero text descenders (e.g. "g") */
+}
+
+.page {
+  animation: pageIn 420ms ease both;
+  padding-top: var(--nav-h);
+  overflow: visible;
+}
+
+/* Centered main container ("center box") */
+.stage {
+  padding: 26px 0 0;
+}
+
+.mainBox {
+  width: min(1220px, 100%);
+  margin-inline: auto;
+  padding: 14px;
+  border-radius: 26px;
+  filter: brightness(1.035);
+}
+
+.mainScroller {
+  max-height: calc(100svh - var(--nav-h) - 58px);
+  overflow: auto;
+  border-radius: 22px;
+  scroll-behavior: smooth;
+  padding: 10px;
+  scrollbar-gutter: stable both-edges;
+}
+
+.desktopSection {
+  height: calc(100svh - var(--nav-h) - 58px);
+  display: grid;
+  align-items: stretch;
+}
+
+.desktopSection .boxSection {
+  height: 100%;
+  display: grid;
+  align-content: center;
+}
+
+@media (max-width: 900px) {
+  .main {
+    overflow: visible;
+  }
+  .desktopSection {
+    height: auto;
+    display: block;
+  }
+  .desktopSection .boxSection {
+    height: auto;
+    display: block;
+  }
+
+  /* Mobile: edge-to-edge; normal page scrolling */
+  .stage {
+    padding: 0;
+  }
+  .mainBox {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    filter: none;
+  }
+  /* Keep glassmorphism active on mobile (skills included). */
+  .mainScroller {
+    max-height: none;
+    overflow: visible;
+    border-radius: 0;
+    padding: 0;
+  }
+  .boxSection {
+    padding: 34px 14px;
+  }
+}
+
+/* Main container: not over-transparent */
+.mainBox.glass {
+  background: linear-gradient(
+    180deg,
+    var(--bg-elev-2),
+    rgba(255, 255, 255, 0.03)
+  );
+}
+
+html[data-theme='light'] .mainBox.glass {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.72),
+    rgba(255, 255, 255, 0.42)
+  );
+}
+
+.boxSection {
+  padding: 56px 10px;
+  scroll-margin-top: calc(var(--nav-h) + 14px);
+  animation: sectionIn 520ms var(--ease-out) both;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes sectionIn {
+  from { transform: translate3d(0, 10px, 0); opacity: 0.88; filter: blur(10px); }
+  to { transform: translate3d(0, 0, 0); opacity: 1; filter: blur(0); }
+}
+
+/* Desktop-only: center section headings for selected sections */
+@media (min-width: 901px) {
+  .sectionHeadCentered > .reveal {
+    text-align: center;
+  }
+  .sectionHeadCentered > .reveal p {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .stage {
+    padding-top: 18px;
+  }
+  .mainBox {
+    padding: 6px;
+    border-radius: 18px;
+  }
+  .mainScroller {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+  }
+  .boxSection {
+    padding: 42px 4px;
+  }
+}
+
+/* Desktop: full-screen, edge-to-edge (no boxed look) */
+@media (min-width: 901px) {
+  .main {
+    padding-bottom: 0;
+  }
+  .stage {
+    padding: 0;
+  }
+  .mainBox {
+    width: 100%;
+    height: calc(100svh - var(--nav-h));
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+  .mainBox.glass {
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: none;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .desktopSection {
+    height: calc(100svh - var(--nav-h));
+  }
+  .desktopSection .boxSection {
+    padding: 0 28px;
+  }
+
+  /* Desktop: lightweight stagger for section contents (no layout impact) */
+  .desktopSection .boxSection > * {
+    animation: deskItemIn 520ms var(--ease-out) both;
+    opacity: 0.92; /* still visible immediately */
+    will-change: transform, opacity, filter;
+  }
+  .desktopSection .boxSection > *:nth-child(1) { animation-delay: 0ms; }
+  .desktopSection .boxSection > *:nth-child(2) { animation-delay: 60ms; }
+  .desktopSection .boxSection > *:nth-child(3) { animation-delay: 120ms; }
+  .desktopSection .boxSection > *:nth-child(4) { animation-delay: 180ms; }
+  .desktopSection .boxSection > *:nth-child(5) { animation-delay: 240ms; }
+
+  @keyframes deskItemIn {
+    from { transform: translate3d(0, 10px, 0); opacity: 0.72; filter: blur(10px); }
+    to { transform: translate3d(0, 0, 0); opacity: 1; filter: blur(0); }
+  }
+
+  /* Desktop has no scrolling; keep footer off-canvas */
+  footer {
+    display: none;
+  }
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    animation: none;
+  }
+  .mainScroller {
+    scroll-behavior: auto;
+  }
+  .boxSection {
+    animation: none;
+    filter: none;
+  }
+  @media (min-width: 901px) {
+    .desktopSection .boxSection > * {
+      animation: none;
+      opacity: 1;
+      filter: none;
+    }
+  }
+}
+
